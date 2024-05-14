@@ -1,0 +1,19 @@
+.item {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.icon {
+  margin-right: 5px;
+}
+.text {
+  text-transform: capitalize;
+}
+.image {
+  border-radius: 5px;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+}

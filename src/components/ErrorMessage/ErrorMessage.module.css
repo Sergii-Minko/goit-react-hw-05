@@ -1,0 +1,8 @@
+.icon {
+    margin-right: 5px;
+  }
+  .message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
