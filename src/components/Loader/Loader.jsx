@@ -1,16 +1,17 @@
-import { InfinitySpin } from "react-loader-spinner";
-import css from "./Loader.module.css";
+import { RotatingLines } from 'react-loader-spinner';
+import { Loading } from './Loader.styled';
 
 const Loader = () => {
   return (
-    <div className={css.loader}>
-      <InfinitySpin
-        visible={true}
+    <Loading>
+      <RotatingLines
+        strokeColor="#3f51b590"
+        strokeWidth="5"
+        animationDuration="0.75"
         width="150"
-        color="SteelBlue"
-        ariaLabel="infinity-spin-loading"
+        visible={true}
       />
-    </div>
+    </Loading>
   );
 };
 export default Loader;
