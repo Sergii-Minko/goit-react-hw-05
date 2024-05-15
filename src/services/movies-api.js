@@ -1,48 +1,54 @@
 import axios from "axios";
+const BASE_URL = "https://api.themoviedb.org/3/";
 
-const moviesApi = axios.create({
-  baseURL: "https://api.themoviedb.org/3",
-  params: {
-    api_key: "bc2889845986d56a8f4e15dd0e60e301",
-    language: "en-US",
+const options = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYzI4ODk4NDU5ODZkNTZhOGY0ZTE1ZGQwZTYwZTMwMSIsInN1YiI6IjY2NDM4ZDA5OTMwM2M4NjE3YzVhMDlhNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.S_yU8WptuVtGNt0iM_bz9D0NDI-jg_ipo34WQOcnu8w ",
   },
-});
+};
 
 export const fetchTrendingMovies = async () => {
-  const { data } = await moviesApi.get("/trending/movie/day");
+  const { data } = await axios.get(
+    `${BASE_URL}trending/movie/day?language=en-US`,
+    options
+  );
+  console.log(data.results);
   return data.results;
 };
 
-export const fetchMoviesByQuery = async (query) => {
-  const { data } = await moviesApi.get("/search/movie", {
-    params: { query },
-  });
+export const fetchMoviesByQuery = async (filmName) => {
+  const { data } = await axios.get(
+    `${BASE_URL}search/movie?query=${filmName}&include_adult=false&language=en-US&page=1`,
+    options
+  );
+  console.log(data.results);
   return data.results;
 };
 
 export const fetchMovieDetails = async (movieId) => {
-  const { data } = await moviesApi.get(`/movie/${movieId}`);
+  const { data } = await axios.get(
+    `${BASE_URL}movie/${movieId}?language=en-US`,
+    options
+  );
+  console.log(data.results);
   return data;
 };
 
 export const fetchMovieCast = async (movieId) => {
-  const { data } = await moviesApi.get(`/movie/${movieId}/credits`);
+  const { data } = await axios.get(
+    `${BASE_URL}movie/${movieId}/credits?language=en-US`,
+    options
+  );
   return data.cast;
 };
 
 export const fetchReviews = async (movieId) => {
-  const { data } = await moviesApi.get(`/movie/${movieId}/reviews`);
-  return data.results;
-};
-
-export const fetchMovieByCategory = async (category) => {
-  const { data } = await moviesApi.get(`/movie/${category}`);
-  return data.results;
-};
-
-export const fetchMovieByCategoryWithPage = async (category, page) => {
-  const { data } = await moviesApi.get(`/movie/${category}`, {
-    params: { page },
-  });
+  const { data } = await axios.get(
+    `${BASE_URL}movie/${movieId}/reviews?language=en-US`,
+    options
+  );
   return data.results;
 };
