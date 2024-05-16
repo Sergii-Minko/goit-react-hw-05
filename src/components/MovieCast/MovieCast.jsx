@@ -11,8 +11,16 @@ const MovieCast = () => {
 
   useEffect(() => {
     setLoader(true);
-    fetchMovieCast(movieId).then(setCast);
-    setLoader(false);
+    fetchMovieCast(movieId)
+      .then((data) => {
+        setCast(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching movie cast:", error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   }, [movieId]);
 
   return (

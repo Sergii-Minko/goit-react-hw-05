@@ -15,8 +15,16 @@ const MovieDetailsPage = () => {
 
   useEffect(() => {
     setLoader(true);
-    fetchMovieDetails(movieId).then(setMovie);
-    setLoader(false);
+    fetchMovieDetails(movieId)
+      .then((data) => {
+        setMovie(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching movie details:", error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   }, [movieId]);
 
   if (!movie) return null;

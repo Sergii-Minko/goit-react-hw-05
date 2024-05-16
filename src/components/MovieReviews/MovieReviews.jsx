@@ -11,8 +11,16 @@ const MovieReviews = () => {
 
   useEffect(() => {
     setLoader(true);
-    fetchReviews(movieId).then(setReviews);
-    setLoader(false);
+    fetchReviews(movieId)
+      .then((data) => {
+        setReviews(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching movie reviews:", error);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
   }, [movieId]);
 
   return (

@@ -24,7 +24,7 @@ export const fetchMoviesByQuery = async (filmName) => {
     `${BASE_URL}search/movie?query=${filmName}&include_adult=false&language=en-US&page=1`,
     options
   );
-  console.log(data.results);
+
   return data.results;
 };
 
@@ -33,7 +33,7 @@ export const fetchMovieDetails = async (movieId) => {
     `${BASE_URL}movie/${movieId}?language=en-US`,
     options
   );
-  console.log(data.results);
+
   return data;
 };
 

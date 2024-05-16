@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchMoviesByQuery } from "../../services/movies-api";
-import MoviesList from "../../components/MoviesList/MoviesList";
+import MovieList from "../../components/MovieList/MovieList";
 import css from "./MoviesPage.module.css";
 import Loader from "../../components/Loader/Loader";
 
@@ -15,11 +15,23 @@ const MoviesPage = () => {
   useEffect(() => {
     const query = searchParams.get("query");
     if (!query) return;
+
     setInputQuery(query);
-    fetchMoviesByQuery(query).then((data) => {
-      if (!data.length) return setShowNotFoundMessage(true);
-      setMovies(data);
-    });
+    setLoader(true);
+
+    fetchMoviesByQuery(query)
+      .then((data) => {
+        if (data.length === 0) {
+          setShowNotFoundMessage(true);
+        } else {
+          setMovies(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Помилка при отриманні фільмів:", error);
+        setShowNotFoundMessage(true);
+      })
+      .finally(() => setLoader(false));
   }, [searchParams]);
 
   const handleSubmit = (e) => {
@@ -27,23 +39,6 @@ const MoviesPage = () => {
     const value = e.currentTarget.elements.search.value.trim().toLowerCase();
     setShowNotFoundMessage(value === "");
     setSearchParams({ query: value });
-
-    if (value != "") {
-      setLoader(true);
-
-      fetchMoviesByQuery(value)
-        .then((data) => {
-          if (data.length === 0) {
-            setShowNotFoundMessage(true);
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 404) {
-            setShowNotFoundMessage(true);
-          }
-        })
-        .finally(() => setLoader(false));
-    }
   };
 
   const handleInputChange = (e) => {
@@ -71,7 +66,7 @@ const MoviesPage = () => {
         {loader ? (
           <Loader />
         ) : (
-          movies && movies.length > 0 && <MoviesList movies={movies} />
+          movies && movies.length > 0 && <MovieList movies={movies} />
         )}
       </div>
     </>

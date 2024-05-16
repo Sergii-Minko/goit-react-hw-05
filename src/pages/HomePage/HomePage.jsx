@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { fetchTrendingMovies } from "../../services/movies-api";
-import MoviesList from "../../components/MoviesList/MoviesList";
+import MovieList from "../../components/MovieList/MovieList";
 import Loader from "../../components/Loader/Loader";
 
 const HomePage = () => {
@@ -8,9 +8,18 @@ const HomePage = () => {
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    setLoader(true);
-    fetchTrendingMovies().then(setMovies);
-    setLoader(false);
+    const getMovies = async () => {
+      setLoader(true);
+      try {
+        const moviesData = await fetchTrendingMovies();
+        setMovies(moviesData);
+      } catch (error) {
+        console.error("Error fetching movie reviews:", error);
+      } finally {
+        setLoader(false);
+      }
+    };
+    getMovies();
   }, []);
 
   return (
@@ -18,7 +27,7 @@ const HomePage = () => {
       <>
         {loader && <Loader />}
         <h1>Trending today</h1>
-        <MoviesList movies={movies} />
+        <MovieList movies={movies} />
       </>
     )
   );
