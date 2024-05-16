@@ -15,7 +15,6 @@ export const fetchTrendingMovies = async () => {
     `${BASE_URL}trending/movie/day?language=en-US`,
     options
   );
-  console.log(data.results);
   return data.results;
 };
 

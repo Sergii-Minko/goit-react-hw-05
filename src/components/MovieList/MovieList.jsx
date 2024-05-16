@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
 import css from "./MovieList.module.css";
-import PropTypes from "prop-types";
 
 const MoviesList = ({ movies }) => {
   const filteredMovies = movies?.filter((movie) => movie.poster_path);
@@ -24,16 +23,6 @@ const MoviesList = ({ movies }) => {
       </ul>
     </div>
   );
-};
-
-MoviesList.propTypes = {
-  movies: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      poster_path: PropTypes.string,
-      title: PropTypes.string.isRequired,
-    })
-  ),
 };
 
 export default MoviesList;
