@@ -5,6 +5,8 @@ import css from "./MovieDetailsPage.module.css";
 import { fetchMovieDetails } from "../../services/movies-api";
 import Loader from "../../components/Loader/Loader";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import toast, { Toaster } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
@@ -20,7 +22,10 @@ const MovieDetailsPage = () => {
         setMovie(data);
       })
       .catch((error) => {
-        console.error("Error fetching movie details:", error);
+        toast(`Error fetching movie details: ${error.message}`, {
+          duration: 3000,
+          icon: <AiFillWarning color="red" size={28} />,
+        });
       })
       .finally(() => {
         setLoader(false);
@@ -33,6 +38,7 @@ const MovieDetailsPage = () => {
 
   return (
     <main className={css.wrapper}>
+      <Toaster position="top-right" />
       {loader && <Loader />}
       <div>
         <Link to={backLinkHref.current} className={css.button}>

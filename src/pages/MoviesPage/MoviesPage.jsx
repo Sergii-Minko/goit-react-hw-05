@@ -4,6 +4,8 @@ import { fetchMoviesByQuery } from "../../services/movies-api";
 import MovieList from "../../components/MovieList/MovieList";
 import css from "./MoviesPage.module.css";
 import Loader from "../../components/Loader/Loader";
+import toast, { Toaster } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,7 +30,10 @@ const MoviesPage = () => {
         }
       })
       .catch((error) => {
-        console.error("Помилка при отриманні фільмів:", error);
+        toast(`Error fetching movie data: ${error.message}`, {
+          duration: 3000,
+          icon: <AiFillWarning color="red" size={28} />,
+        });
         setShowNotFoundMessage(true);
       })
       .finally(() => setLoader(false));
@@ -47,6 +52,7 @@ const MoviesPage = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       <div>
         <form className={css.form} onSubmit={handleSubmit}>
           <input

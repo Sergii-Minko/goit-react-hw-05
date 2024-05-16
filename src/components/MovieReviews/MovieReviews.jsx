@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { fetchReviews } from "../../services/movies-api";
 import css from "./MovieReviews.module.css";
 import Loader from "../Loader/Loader";
+import toast, { Toaster } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 const MovieReviews = () => {
   const { movieId } = useParams();
@@ -16,7 +18,10 @@ const MovieReviews = () => {
         setReviews(data);
       })
       .catch((error) => {
-        console.error("Error fetching movie reviews:", error);
+        toast(`Error fetching movie reviews: ${error.message}`, {
+          duration: 3000,
+          icon: <AiFillWarning color="red" size={28} />,
+        });
       })
       .finally(() => {
         setLoader(false);
@@ -25,6 +30,7 @@ const MovieReviews = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       {loader && <Loader />}
       <div className={css.container}>
         {reviews && reviews.length > 0 ? (

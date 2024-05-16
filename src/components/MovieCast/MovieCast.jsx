@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { fetchMovieCast } from "../../services/movies-api";
 import css from "./MovieCast.module.css";
 import Loader from "../Loader/Loader";
+import toast, { Toaster } from "react-hot-toast";
+import { AiFillWarning } from "react-icons/ai";
 
 const MovieCast = () => {
   const { movieId } = useParams();
@@ -16,7 +18,10 @@ const MovieCast = () => {
         setCast(data);
       })
       .catch((error) => {
-        console.error("Error fetching movie cast:", error);
+        toast(`Error fetching movie cast: ${error.message}`, {
+          duration: 3000,
+          icon: <AiFillWarning color="red" size={28} />,
+        });
       })
       .finally(() => {
         setLoader(false);
@@ -25,6 +30,7 @@ const MovieCast = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       {loader && <Loader />}
       <div className={css.wrapper}>
         {cast && cast.length > 0 ? (
